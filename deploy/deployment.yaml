@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mesh-route-generator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mesh-route-generator
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+      labels:
+        app: mesh-route-generator
+    spec:
+      serviceAccountName: route-generator
+      containers:
+      - name: mesh-route-generator
+        image: mesh-route-generator:latest
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"

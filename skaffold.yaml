@@ -1,0 +1,14 @@
+apiVersion: skaffold/v2beta24
+kind: Config
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - image: mesh-route-generator
+      context: .
+      docker:
+        noCache: true
+deploy:
+  kubectl:
+    manifests:
+    - ./deploy/*.yaml
