@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"sre-mesh-routing-generator/pkg/utils"
+	"mesh-route-generator/pkg/utils"
 
 	"istio.io/api/meta/v1alpha1"
 	"istio.io/api/networking/v1beta1"
