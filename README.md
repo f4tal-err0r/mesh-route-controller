@@ -1,4 +1,4 @@
-# sre-mesh-route-generator
+# mesh-route-generator
 
 ### What is this?
 
