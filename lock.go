@@ -1,27 +1,16 @@
-package utils
+package main
 
 import (
 	"log"
 	"reflect"
-	"sync"
 
 	"istio.io/api/networking/v1beta1"
 )
 
 //Operations on slices are not thread safe, so this is to lock the slice to stop the
 //possibility of concurrent writes
-type SliceLock struct {
-	*sync.Mutex
-}
 
-func NewLock() SliceLock {
-	var mutex sync.Mutex
-	return SliceLock{
-		Mutex: &mutex,
-	}
-}
-
-func (sl *SliceLock) Append(orig, appArr []*v1beta1.HTTPRoute) []*v1beta1.HTTPRoute {
+func (c *Controller) Append(orig, appArr []*v1beta1.HTTPRoute) []*v1beta1.HTTPRoute {
 
 	var meshHttpRoutes []*v1beta1.HTTPRoute
 
@@ -33,14 +22,14 @@ func (sl *SliceLock) Append(orig, appArr []*v1beta1.HTTPRoute) []*v1beta1.HTTPRo
 		}
 	}
 
-	sl.Lock()
-	defer sl.Unlock()
+	c.Lock()
+	defer c.Unlock()
 	return append(orig, appArr...)
 }
 
-func (sl *SliceLock) Delete(orig, key []*v1beta1.HTTPRoute) []*v1beta1.HTTPRoute {
-	sl.Lock()
-	defer sl.Unlock()
+func (c *Controller) Delete(orig, key []*v1beta1.HTTPRoute) []*v1beta1.HTTPRoute {
+	c.Lock()
+	defer c.Unlock()
 	for i := range key {
 		for j := range orig {
 			if reflect.DeepEqual(orig[j], key[i]) {
@@ -55,11 +44,11 @@ func (sl *SliceLock) Delete(orig, key []*v1beta1.HTTPRoute) []*v1beta1.HTTPRoute
 	return orig
 }
 
-func (sl *SliceLock) Update(orig, newArr, oldArr []*v1beta1.HTTPRoute) []*v1beta1.HTTPRoute {
+func (c *Controller) Update(orig, newArr, oldArr []*v1beta1.HTTPRoute) []*v1beta1.HTTPRoute {
 	var meshHttpRoutes []*v1beta1.HTTPRoute
 
-	sl.Lock()
-	defer sl.Unlock()
+	c.Lock()
+	defer c.Unlock()
 
 	//Delete old routes
 	for i := range oldArr {
@@ -75,4 +64,14 @@ func (sl *SliceLock) Update(orig, newArr, oldArr []*v1beta1.HTTPRoute) []*v1beta
 
 	meshHttpRoutes = append(orig, newArr...)
 	return meshHttpRoutes
+}
+
+func Contains(orig []*v1beta1.HTTPRoute, elem *v1beta1.HTTPRoute) bool {
+	for _, v := range orig {
+		if reflect.DeepEqual(v, elem) {
+			return true
+		}
+	}
+
+	return false
 }

@@ -3,8 +3,7 @@ package main
 import (
 	"context"
 	"log"
-
-	"mesh-route-generator/pkg/utils"
+	"sync"
 
 	"istio.io/api/meta/v1alpha1"
 	"istio.io/api/networking/v1beta1"
@@ -24,14 +23,14 @@ type Controller struct {
 	vsClient          vs.VirtualServiceInterface
 	meshRouteManifest *spec.VirtualService
 
-	utils.SliceLock
+	*sync.RWMutex
 }
 
 func NewController(ic versionedclient.Interface) *Controller {
 	var err error
 
 	controller := Controller{}
-	controller.SliceLock = utils.NewLock()
+	controller.RWMutex = &sync.RWMutex{}
 
 	controller.ic = ic
 
@@ -52,7 +51,7 @@ func NewController(ic versionedclient.Interface) *Controller {
 			log.Fatal(err)
 		}
 	} else if err != nil {
-		log.Println(err)
+		log.Fatalf("Failed to get mesh routing manifest: %s", err)
 	} else {
 		log.Println("Found mesh-routing manifest")
 	}
