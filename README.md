@@ -2,7 +2,7 @@
 
 ### What is this?
 
-This is a basic kubernetes controller that is built to handle a long running issue in current versions of istio (<= 1.14) that disallows more than one Kubernetes virtualservice from managing internal mesh gateway routes (https://github.com/istio/istio/issues/22997). This issue will be resolved by HTTPRoute CRDs which we will transition to after it exits beta and the managed Anthos Service Mesh upgrades us to the version that this will be availaible.
+This is a basic kubernetes controller that is built to handle a long running issue in current versions of istio (<= 1.14) that disallows more than one Kubernetes virtualservice from managing internal mesh gateway routes (https://github.com/istio/istio/issues/22997). This issue will be resolved by HTTPRoute CRDs coming in the neat future 
 
 ### How does it work?
 
