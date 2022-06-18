@@ -1,4 +1,4 @@
-![Tests](https://github.com/f4tal-err0r/mesh-route-controller/actions/workflows/tests/badge.svg)
+[![tests](https://github.com/f4tal-err0r/mesh-route-controller/actions/workflows/main.yml/badge.svg)](https://github.com/f4tal-err0r/mesh-route-controller/actions/workflows/main.yml)
 
 # mesh-route-generator
 
