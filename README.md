@@ -1,3 +1,5 @@
+![Tests](https://github.com/f4tal-err0r/mesh-route-controller/actions/workflows/main/badge.svg)
+
 # mesh-route-generator
 
 ### What is this?
